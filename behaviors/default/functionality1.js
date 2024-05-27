@@ -26,20 +26,28 @@ class ModelPawn extends PawnBehavior {
         // let temp=[];
         
         const loadModelPromise = new Promise((resolve, reject) => {
-            gltfLoader.load('./assets/Server_Room_New_NEW 1wire blend.glb', (gltf) => {
-                const model = gltf.scene;
-
-                model.position.set(0, -1.6, 0);
-                const scaleFactor = 8;
-                model.scale.set(scaleFactor, scaleFactor, scaleFactor);
-
-                group.add(model);
-                console.log(model);
-
-
-                resolve(model);
-            }, null, reject);
+            gltfLoader.load(
+                './assets/Server_Room_New_NEW 1wire blend.glb', 
+                (gltf) => {
+                    const model = gltf.scene;
+        
+                    model.position.set(0, -1.6, 0);
+                    const scaleFactor = 8;
+                    model.scale.set(scaleFactor, scaleFactor, scaleFactor);
+        
+                    group.add(model);
+                    console.log(model);
+        
+                    resolve(model);
+                },
+                null,
+                (error) => {
+                    console.error('Error loading GLTF model:', error);
+                    reject(error);
+                }
+            );
         });
+        
 
         loadModelPromise.then((model) => {
             const colors = [0xff0000, 0x00ff00, 0x0000ff, 0xffff00]; // Red, Green, Blue, Yellow
