@@ -25,6 +25,30 @@ class ModelPawn extends PawnBehavior {
         // let cfd=[];
         // let temp=[];
         
+        // const loadModelPromise = new Promise((resolve, reject) => {
+        //     gltfLoader.load(
+        //         './assets/Server_Room_New_NEW 1wire blend.glb', 
+        //         (gltf) => {
+        //             const model = gltf.scene;
+        
+        //             model.position.set(0, -1.6, 0);
+        //             const scaleFactor = 8;
+        //             model.scale.set(scaleFactor, scaleFactor, scaleFactor);
+        
+        //             group.add(model);
+        //             console.log(model);
+        
+        //             resolve(model);
+        //         },
+        //         null,
+        //         (error) => {
+        //             console.error('Error loading GLTF model:', error);
+        //             reject(error);
+        //         }
+        //     );
+        // });
+
+
         const loadModelPromise = new Promise((resolve, reject) => {
             gltfLoader.load(
                 './assets/Server_Room_New_NEW 1wire blend.glb', 
@@ -40,7 +64,9 @@ class ModelPawn extends PawnBehavior {
         
                     resolve(model);
                 },
-                null,
+                (xhr) => {
+                    console.log(`${(xhr.loaded / xhr.total * 100)}% loaded`);
+                },
                 (error) => {
                     console.error('Error loading GLTF model:', error);
                     reject(error);
