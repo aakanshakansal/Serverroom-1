@@ -1,8 +1,5 @@
 import * as THREE from 'three'
 import * as dat from 'dat.gui';
-import * as TWEEN from '@tweenjs/tween.js';
-
-
 class ModelPawn extends PawnBehavior {
     setup() {
         let trm = this.service("ThreeRenderManager");
@@ -21,9 +18,8 @@ class ModelPawn extends PawnBehavior {
         gltfLoader.setDRACOLoader(dracoLoader);
 
         this.lights = [];
-        // let particles = [];
-        // let cfd=[];
-        // let temp=[];
+        this.createVoxels(model, 3);
+
         
         const loadModelPromise = new Promise((resolve, reject) => {
             gltfLoader.load(
@@ -47,34 +43,6 @@ class ModelPawn extends PawnBehavior {
                 }
             );
         });
-
-
-        // const loadModelPromise = new Promise((resolve, reject) => {
-        //     gltfLoader.load(
-        //         './assets/Server_Room_New_NEW 1wire blend.glb', 
-        //         (gltf) => {
-        //             const model = gltf.scene;
-        
-        //             model.position.set(0, -1.6, 0);
-        //             const scaleFactor = 8;
-        //             model.scale.set(scaleFactor, scaleFactor, scaleFactor);
-        
-        //             group.add(model);
-        //             console.log(model);
-        
-        //             resolve(model);
-        //         },
-        //         (xhr) => {
-        //             console.log(`${(xhr.loaded / xhr.total * 100)}% loaded`);
-        //         },
-        //         (error) => {
-        //             console.error('Error loading GLTF model:', error);
-        //             reject(error);
-        //         }
-        //     );
-        // });
-        
-
         loadModelPromise.then((model) => {
             const colors = [0xff0000, 0x00ff00, 0x0000ff, 0xffff00]; // Red, Green, Blue, Yellow
 
@@ -137,46 +105,6 @@ class ModelPawn extends PawnBehavior {
                     }
                 });
             }
-
-            // Import Tween.js library if not already imported
-// <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/18.6.4/tween.min.js"></script>
-
-// function traverseAndColor1(object, restore = false) {
-//     if (object.isMesh) {
-//         if (restore) {
-//             const originalMaterial = originalMaterials.get(object);
-//             if (originalMaterial) {
-//                 object.material = originalMaterial;
-//             }
-//         } else {
-//             if (!originalMaterials.has(object)) {
-//                 originalMaterials.set(object, object.material);
-//             }
-//             const color = colors[colorIndex % colors.length];
-//             const material = new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.3 });
-            
-//             // Start animation
-//             const tween = new TWEEN.Tween(object.material.color)
-//                 .to(color, 1000) // Transition duration
-//                 .easing(TWEEN.Easing.Quadratic.Out) // Easing function
-//                 .onUpdate(() => {
-//                     object.material.needsUpdate = true; // Update material in each frame
-//                 })
-//                 .start(); // Start the animation
-            
-//             colorIndex++;
-//         }
-//     }
-
-//     object.children.forEach((child, index) => {
-//         if (index >= 1) { // Only affect children with an index of 2 or higher
-//             traverseAndColor1(child, restore);
-//         }
-//     });
-    
-//     // Update Tween.js
-//     TWEEN.update();
-// }
 
             function traverseAndColor2(object, restore = false) {
                 // If the object is a mesh and it's within the desired range of children indices, apply the color or restore material
@@ -380,108 +308,6 @@ class ModelPawn extends PawnBehavior {
                 });
             }
 
-            
-            // function traverseAndColor7(object, restore = false) {
-            //     // If the object is a mesh and it's within the desired range of children indices, apply the color or restore material
-            //     if (object.isMesh) {
-            //         if (restore) {
-            //             // Restore the original material if available
-            //             const originalMaterial = originalMaterials.get(object);
-            //             if (originalMaterial) {
-            //                 object.material = originalMaterial;
-            //             }
-            //         } else {
-            //             // Apply new texture if restoring the original material is not requested
-            //             if (!originalMaterials.has(object)) {
-            //                 originalMaterials.set(object, object.material);
-            //             }
-            //             // Load texture
-            //             const textureLoader = new THREE.TextureLoader();
-            //             textureLoader.load('./assets/images/Texture3.jpg', (texture) => {
-            //                const material = new THREE.MeshBasicMaterial({ 
-//   map: texture,
-//   transparent: true,
-//   opacity: 0.5 // Adjust the opacity value as needed (0.0 to 1.0)
-// });
-
-            //                 object.material = material;
-            //             });
-            //         }
-            //     }
-
-            //     // Recursively traverse specific children based on the index condition
-            //     object.children.forEach((child, index) => {
-            //         if (index >= 0) { // Only affect children with an index of 2 or higher
-            //             traverseAndColor7(child, restore);
-            //         }
-            //     });
-            // }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            // const texturesArray = [
-            //     './assets/images/Texture.jpg',
-            //     './assets/images/Texture1.jpg',
-            //     './assets/images/Texture2.jpg',
-            //     './assets/images/Texture3.jpg',
-            //     './assets/images/Texture4.jpg',
-            // ];
-            
-            // // Define the originalMaterials map
-            // const originalMaterials1 = new WeakMap();
-            
-            // function traverseAndColor2(object, texturesArray, restore = false) {
-            //     // If the object is a mesh and it's within the desired range of children indices, apply the color or restore material
-            //     if (object.isMesh) {
-            //         if (restore) {
-            //             // Restore the original material if available
-            //             const originalMaterial = originalMaterials1.get(object);
-            //             if (originalMaterial) {
-            //                 object.material = originalMaterial;
-            //             }
-            //         } else {
-            //             // Apply new textures if restoring the original material is not requested
-            //             if (!originalMaterials.has(object)) {
-            //                 originalMaterials.set(object, object.material);
-            //             }
-            
-            //             // Load textures
-            //             texturesArray.forEach((texturePath, index) => {
-            //                 if (index < object.children.length) {
-            //                     const textureLoader = new THREE.TextureLoader();
-            //                     textureLoader.load(texturePath, (texture) => {
-            //                         const material = new THREE.MeshBasicMaterial({ map: texture });
-            //                         object.children[index].material = material;
-            //                     });
-            //                 }
-            //             });
-            //         }
-            //     }
-            
-            //     // Recursively traverse specific children based on the index condition
-            //     object.children.forEach((child, index) => {
-            //         if (index >= 1) { // Only affect children with an index of 2 or higher
-            //             traverseAndColor2(child, texturesArray, restore);
-            //         }
-            //     });
-            // }
-            
-            // // Example usage
-            // const yourObject =model.children[17].children[1]; // Define your object here
-            // traverseAndColor2(yourObject, texturesArray);
-            
 
             var gui = new dat.GUI();
             var obj = {
@@ -543,54 +369,6 @@ class ModelPawn extends PawnBehavior {
             var obj2 = {
                 traverseAndColor2: false // Initial state of the checkbox
             };
-
-            // gui.add(obj2, 'traverseAndColor2').name('CFD').onChange(function(value) {
-            //     if (value) {
-            //         for (let i=0; i <= 59; i++) {
-            //             colorIndex = i ;
-            //             if(i%2 ==0 ){
-            //                 traverseAndColor2(model.children[17].children[i], false);
-            //             }
-            //             if(i%3 ==0 ){
-            //                 traverseAndColor3(model.children[17].children[i], false);
-            //             }
-            //              if(i%4 ==0 ){
-            //                 traverseAndColor4(model.children[17].children[i], false);
-            //             }
-            //             if(i%5 ==0 ){
-            //                 traverseAndColor5(model.children[17].children[i], false);
-            //             }
-            //              if(i%6 ==0 ){
-            //                 traverseAndColor6(model.children[17].children[i], false);
-            //             }
-
-            //             // Reset colorIndex for each row
-                        
-                      
-                      
-            //             }
-            //         }
-            //      else {
-            //         for (let i=0; i <= 59; i++) {
-            //             if(i%2 ==0 && i%4!=0){
-            //                 traverseAndColor2(model.children[17].children[i], true);
-            //             }
-            //            if(i%3 ==0  && i%6!=0){
-            //                 traverseAndColor3(model.children[17].children[i], true);
-            //             }
-            //             if(i%4 ==0 && i%6!=0 ){
-            //                 traverseAndColor4(model.children[17].children[i], true);
-            //             }
-            //             if(i%5 ==0 ){
-            //                 traverseAndColor5(model.children[17].children[i], true);
-            //             }
-            //              if(i%6 ==0 ){
-            //                 traverseAndColor6(model.children[17].children[i], true);
-            //             }
-            //         }
-            //     }
-            // });
-
 
             gui.add(obj2, 'traverseAndColor2').name('CFD').onChange(function (value) {
                 if (value) {
@@ -670,49 +448,6 @@ class ModelPawn extends PawnBehavior {
                 
             });
 
-
-
-
-            // gui.add(obj2, 'traverseAndColor2').name('CFD').onChange(function(value) {
-            //     if (value) {
-            //         for (let i = 0; i < 60; i++) {
-            //             colorIndex = i;
-            //             if (i % 2 == 0) {
-            //                 traverseAndColor2(model.children[17].children[i], false);
-            //             }
-            //             if (i % 3 == 0 && i % 2 != 0) {
-            //                 traverseAndColor3(model.children[17].children[i], false);
-            //             }
-            //             if (i % 4 == 0 && i % 2 != 0 && i % 3 != 0) {
-            //                 traverseAndColor4(model.children[17].children[i], false);
-            //             }
-            //             if (i % 5 == 0 && i % 2 != 0 && i % 3 != 0 && i % 4 != 0) {
-            //                 traverseAndColor5(model.children[17].children[i], false);
-            //             }
-            //             if (i % 6 == 0 && i % 2 != 0 && i % 3 != 0 && i % 4 != 0 && i % 5 != 0) {
-            //                 traverseAndColor6(model.children[17].children[i], false);
-            //             }
-            //         }
-            //     } else {
-            //         for (let i = 0; i < 60; i++) {
-            //             if (i % 2 == 0 && (i % 4 != 0 || i % 6 == 0)) {
-            //                 traverseAndColor2(model.children[17].children[i], true);
-            //             }
-            //             if (i % 3 == 0 && (i % 6 != 0 || i % 9 == 0)) {
-            //                 traverseAndColor3(model.children[17].children[i], true);
-            //             }
-            //             if (i % 4 == 0 && (i % 6 != 0 || i % 8 == 0)) {
-            //                 traverseAndColor4(model.children[17].children[i], true);
-            //             }
-            //             if (i % 5 == 0 && (i % 10 != 0)) {
-            //                 traverseAndColor5(model.children[17].children[i], true);
-            //             }
-            //             if (i % 6 == 0 && (i % 12 == 0)) {
-            //                 traverseAndColor6(model.children[17].children[i], true);
-            //             }
-            //         }
-            //     }
-            // });
             var obj3 = {
                 traverseAndColor7: false // Initial state of the checkbox
             };
@@ -766,79 +501,9 @@ class ModelPawn extends PawnBehavior {
                        
                     }
                 }
-            });   
-
-            // var obj4 = {
-            //     traverseAndColor2: false // Initial state of the checkbox
-            // };
+            });  
             
-            
-            // gui.add(obj4, 'traverseAndColor2').name('CFD1').onChange(function (value) {
-            //     if (value) {
-            //         for (let i=0; i <= 10; i++) {
-                        
-            //             // Reset colorIndex for each row
-            //             colorIndex = i - 1;
-                       
-            //                 traverseAndColor2(model.children[13].children[i], false);
-            //             }
-            //             for (let i=11; i <= 22; i++) {
-                        
-            //                 // Reset colorIndex for each row
-            //                 colorIndex = i - 1;
-                           
-            //                     traverseAndColor3(model.children[13].children[i], false);
-            //                 } 
-            //                 for (let i=23; i <= 34; i++) {
-                        
-            //                     // Reset colorIndex for each row
-            //                     colorIndex = i - 1;
-                               
-            //                         traverseAndColor4(model.children[13].children[i], false);
-            //                     }
-            //                      for (let i=35; i <= 48; i++) {
-                        
-            //                         // Reset colorIndex for each row
-            //                         colorIndex = i - 1;
-                                   
-            //                             traverseAndColor5(model.children[13].children[i], false);
-            //                         }
-                                    
-            //         }
-            //      else {
-            //         for (let i=0; i <= 10; i++) {
-                        
-            //             // Reset colorIndex for each row
-                       
-                       
-            //                 traverseAndColor2(model.children[13].children[i], true);
-            //             }
-            //             for (let i=11; i <= 22; i++) {
-                        
-            //                 // Reset colorIndex for each row
-                           
-                           
-            //                     traverseAndColor3(model.children[13].children[i], true);
-            //                 } 
-            //                 for (let i=23; i <= 34; i++) {
-                        
-            //                     // Reset colorIndex for each row
-                               
-                               
-            //                         traverseAndColor4(model.children[13].children[i], true);
-            //                     }
-            //                      for (let i=35; i <= 48; i++) {
-                        
-            //                         // Reset colorIndex for each row
-                                   
-                                   
-            //                             traverseAndColor5(model.children[13].children[i], true);
-            //                         }
-            //                     }
-                
-            // });
-
-            
+       
 
         }).catch((error) => {
             console.error('Error loading GLTF model:', error);
