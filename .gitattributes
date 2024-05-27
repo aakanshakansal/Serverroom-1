@@ -1,3 +1,4 @@
 path/to/large/file filter=lfs diff=lfs merge=lfs -text
 assets/Server_Room_New_NEW[[:space:]]11[[:space:]]wire[[:space:]]blend.glb filter=lfs diff=lfs merge=lfs -text
 *.glb filter=lfs diff=lfs merge=lfs -text
+Server_Room_New_NEW[[:space:]]1wire[[:space:]]blend.glb filter=lfs diff=lfs merge=lfs -text
