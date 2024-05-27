@@ -18,7 +18,7 @@ class ModelPawn extends PawnBehavior {
         gltfLoader.setDRACOLoader(dracoLoader);
 
         this.lights = [];
-        this.createVoxels(model, 3);
+        let particles=[];
 
         
         const loadModelPromise = new Promise((resolve, reject) => {
@@ -28,7 +28,7 @@ class ModelPawn extends PawnBehavior {
                     const model = gltf.scene;
         
                     model.position.set(0, -1.6, 0);
-                    const scaleFactor = 8;
+                    const scaleFactor = 2;
                     model.scale.set(scaleFactor, scaleFactor, scaleFactor);
         
                     group.add(model);
@@ -308,7 +308,101 @@ class ModelPawn extends PawnBehavior {
                 });
             }
 
-
+            function createParticleSystem(group, THREE) {
+                let particlesGroup = null;
+                const colors = [0xff0000, 0x00ff00, 0x0000ff, 0xffff00]; // Red, Green, Blue, Yellow
+            
+                // Shuffle the colors array to randomize the order
+                for (let i = colors.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [colors[i], colors[j]] = [colors[j], colors[i]];
+                }
+            
+                let colorIndex = 0;
+            
+                function createParticles() {
+                    if (particlesGroup) {
+                        // If particles already exist, no need to create them again
+                        return;
+                    }
+            
+                    particlesGroup = new THREE.Group();
+                    const particleCount = 10000;
+                    const radius = 0.05; // Radius of individual spheres
+            
+                    for (let i = 0; i < particleCount; i++) {
+                        const geometry = new THREE.SphereGeometry(radius, 1, 1);
+                        const material = new THREE.MeshBasicMaterial({
+                            color: colors[colorIndex]
+                        });
+                        colorIndex = (colorIndex + 1) % colors.length; // Cycle through colors
+            
+                        const particle = new THREE.Mesh(geometry, material);
+            
+                        // Position the particles randomly within a certain volume
+                        particle.position.set(
+                            (Math.random() - 0.5) * 100, // X position
+                            (Math.random() - 0.5) * 100, // Y position
+                            (Math.random() - 0.5) * 100  // Z position
+                        );
+            
+                        particlesGroup.add(particle);
+                    }
+            
+                    // particlesGroup.position.set(10, 1, 10); // Set the initial position for the particle system
+                    group.add(particlesGroup);
+            
+                    // Start the animation
+                    startAnimation();
+                }
+            
+                function removeParticles() {
+                    if (particlesGroup) {
+                        group.remove(particlesGroup);
+                        particlesGroup.traverse((object) => {
+                            if (object.isMesh) {
+                                object.geometry.dispose();
+                                object.material.dispose();
+                            }
+                        });
+                        particlesGroup = null;
+                    }
+                }
+            
+                function startAnimation() {
+                    let time = 0;
+                    const speed = 0.07; // Speed of particle movement
+            
+                    function updateParticles() {
+                        if (!particlesGroup) {
+                            // Stop the animation if the particle system is removed
+                            return;
+                        }
+            
+                        particlesGroup.children.forEach(particle => {
+                            // Move Y position up over time
+                            particle.position.y += speed * time;
+            
+                            // Reset if Y position goes above threshold
+                            if (particle.position.y >10) {
+                                particle.position.y = -2;
+                            }
+                        });
+            
+                        time += 0.001; // Increase time increment for faster animation
+            
+                        requestAnimationFrame(updateParticles);
+                    }
+            
+                    updateParticles();
+                }
+            
+                return {
+                    createParticles,
+                    removeParticles
+                };
+            }
+            
             var gui = new dat.GUI();
             var obj = {
                 traverseAndColor: false // Initial state of the checkbox
@@ -501,8 +595,20 @@ class ModelPawn extends PawnBehavior {
                        
                     }
                 }
-            });  
+            }); 
+            var obj5 = {
+                createParticles: false // Initial state of the checkbox
+            };
             
+            const particleSystem = createParticleSystem(group, THREE);
+            
+            gui.add(obj5, 'createParticles').name('Particles').onChange(function(value) {
+                if (value) {
+                    particleSystem.createParticles();
+                } else {
+                    particleSystem.removeParticles();
+                }
+            });
        
 
         }).catch((error) => {
@@ -513,11 +619,20 @@ class ModelPawn extends PawnBehavior {
     }
 
     teardown() {
+        console.log("teardown lights");
+        this.removeLights();
         let scene = this.service("ThreeRenderManager").scene;
         scene.background?.dispose();
         scene.environment?.dispose();
         scene.background = null;
         scene.environment = null;
+
+        // Dispose particle system
+        if (this.particleSystem) {
+            this.shape.remove(this.particleSystem);
+            this.particleSystem.geometry.dispose();
+            this.particleSystem.material.dispose();
+        }
     }
 
     updateShape(options) {
