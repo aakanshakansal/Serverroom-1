@@ -66,7 +66,7 @@ class ModelPawn extends PawnBehavior {
                             originalMaterials.set(object, object.material);
                         }
                         const color = colors[colorIndex % colors.length];
-                        const material = new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.7 });
+                        const material = new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.3 });
                         object.material = material;
                         colorIndex++;
                     }
@@ -91,7 +91,7 @@ class ModelPawn extends PawnBehavior {
                             originalMaterials.set(object, object.material);
                         }
                         const color = colors[colorIndex % colors.length];
-                        const material = new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.7 });
+                        const material = new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.3 });
                         object.material = material;
                         colorIndex++;
                     }
@@ -119,7 +119,7 @@ class ModelPawn extends PawnBehavior {
 //                 originalMaterials.set(object, object.material);
 //             }
 //             const color = colors[colorIndex % colors.length];
-//             const material = new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.7 });
+//             const material = new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.3 });
             
 //             // Start animation
 //             const tween = new TWEEN.Tween(object.material.color)
@@ -161,7 +161,12 @@ class ModelPawn extends PawnBehavior {
                         // Load texture
                         const textureLoader = new THREE.TextureLoader();
                         textureLoader.load('./assets/images/Texture.jpg', (texture) => {
-                            const material = new THREE.MeshBasicMaterial({ map: texture});
+                           const material = new THREE.MeshBasicMaterial({ 
+  map: texture,
+  transparent: true,
+  opacity: 0.6 // Adjust the opacity value as needed (0.0 to 1.0)
+});
+
                             object.material = material;
                         });
                     }
@@ -191,7 +196,12 @@ class ModelPawn extends PawnBehavior {
                         // Load texture
                         const textureLoader = new THREE.TextureLoader();
                         textureLoader.load('./assets/images/Texture1.jpg', (texture) => {
-                            const material = new THREE.MeshBasicMaterial({ map: texture});
+                           const material = new THREE.MeshBasicMaterial({ 
+  map: texture,
+  transparent: true,
+  opacity: 0.6 // Adjust the opacity value as needed (0.0 to 1.0)
+});
+
                             object.material = material;
                         });
                     }
@@ -221,7 +231,12 @@ class ModelPawn extends PawnBehavior {
                         // Load texture
                         const textureLoader = new THREE.TextureLoader();
                         textureLoader.load('./assets/images/Texture2.jpg', (texture) => {
-                            const material = new THREE.MeshBasicMaterial({ map: texture});
+                           const material = new THREE.MeshBasicMaterial({ 
+  map: texture,
+  transparent: true,
+  opacity: 0.6 // Adjust the opacity value as needed (0.0 to 1.0)
+});
+
                             object.material = material;
                         });
                     }
@@ -251,7 +266,12 @@ class ModelPawn extends PawnBehavior {
                         // Load texture
                         const textureLoader = new THREE.TextureLoader();
                         textureLoader.load('./assets/images/Texture3.jpg', (texture) => {
-                            const material = new THREE.MeshBasicMaterial({ map: texture});
+                           const material = new THREE.MeshBasicMaterial({ 
+  map: texture,
+  transparent: true,
+  opacity: 0.6 // Adjust the opacity value as needed (0.0 to 1.0)
+});
+
                             object.material = material;
                         });
                     }
@@ -281,7 +301,12 @@ class ModelPawn extends PawnBehavior {
                         // Load texture
                         const textureLoader = new THREE.TextureLoader();
                         textureLoader.load('./assets/images/Texture5.jpg', (texture) => {
-                            const material = new THREE.MeshBasicMaterial({ map: texture});
+                           const material = new THREE.MeshBasicMaterial({ 
+  map: texture,
+  transparent: true,
+  opacity: 0.6 // Adjust the opacity value as needed (0.0 to 1.0)
+});
+
                             object.material = material;
                         });
                     }
@@ -307,7 +332,7 @@ class ModelPawn extends PawnBehavior {
                             originalMaterials.set(object, object.material);
                         }
                         const color = colors[colorIndex % colors.length];
-                        const material = new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.7 });
+                        const material = new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.3 });
                         object.material = material;
                         colorIndex++;
                     }
@@ -339,7 +364,12 @@ class ModelPawn extends PawnBehavior {
             //             // Load texture
             //             const textureLoader = new THREE.TextureLoader();
             //             textureLoader.load('./assets/images/Texture3.jpg', (texture) => {
-            //                 const material = new THREE.MeshBasicMaterial({ map: texture});
+            //                const material = new THREE.MeshBasicMaterial({ 
+//   map: texture,
+//   transparent: true,
+//   opacity: 0.5 // Adjust the opacity value as needed (0.0 to 1.0)
+// });
+
             //                 object.material = material;
             //             });
             //         }
