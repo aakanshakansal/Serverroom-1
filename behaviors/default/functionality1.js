@@ -13,51 +13,40 @@ class ModelPawn extends PawnBehavior {
         }
 
         // Initialize DRACOLoader
-const dracoLoader = new THREE.DRACOLoader();
-dracoLoader.setDecoderPath('https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/libs/draco/');
+        const dracoLoader = new THREE.DRACOLoader();
+        dracoLoader.setDecoderPath('https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/libs/draco/');
 
-// Set DRACOLoader as an extension to GLTFLoader
-const gltfLoader = new THREE.GLTFLoader();
-gltfLoader.setDRACOLoader(dracoLoader);
+        // Set DRACOLoader as an extension to GLTFLoader
+        const gltfLoader = new THREE.GLTFLoader();
+        gltfLoader.setDRACOLoader(dracoLoader);
 
-this.lights = [];
-
-const loadModelPromise = new Promise((resolve, reject) => {
-    fetch('./assets/Server_Room_New_NEW 1wire blend.glb')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.blob();
-        })
-        .then(blob => {
-            const url = URL.createObjectURL(blob);
-            gltfLoader.load(url, (gltf) => {
-                const model = gltf.scene;
-
-                model.position.set(0, -1.6, 0);
-                const scaleFactor = 8;
-                model.scale.set(scaleFactor, scaleFactor, scaleFactor);
-
-                group.add(model);
-                console.log(model);
-
-                resolve(model);
-            },
-            (xhr) => {
-                console.log(`${(xhr.loaded / xhr.total * 100)}% loaded`);
-            },
-            (error) => {
-                console.error('Error loading GLTF model:', error);
-                reject(error);
-            });
-        })
-        .catch(error => {
-            console.error('Error fetching GLTF model:', error);
-            reject(error);
+        this.lights = [];
+        // let particles = [];
+        // let cfd=[];
+        // let temp=[];
+        
+        const loadModelPromise = new Promise((resolve, reject) => {
+            gltfLoader.load(
+                './assets/Server_Room_New_NEW 1wire blend.glb', 
+                (gltf) => {
+                    const model = gltf.scene;
+        
+                    model.position.set(0, -1.6, 0);
+                    const scaleFactor = 8;
+                    model.scale.set(scaleFactor, scaleFactor, scaleFactor);
+        
+                    group.add(model);
+                    console.log(model);
+        
+                    resolve(model);
+                },
+                null,
+                (error) => {
+                    console.error('Error loading GLTF model:', error);
+                    reject(error);
+                }
+            );
         });
-});
-
 
 
         // const loadModelPromise = new Promise((resolve, reject) => {
