@@ -8,7 +8,7 @@
     "watch-server": "watch-server"
   },
   "dependencies": {
-    "@croquet/microverse-library": "0.7.19",
+    "@croquet/microverse-library": "^0.7.19",
     "dat-gui": "^0.5.0",
     "three": "^0.164.1"
   },
