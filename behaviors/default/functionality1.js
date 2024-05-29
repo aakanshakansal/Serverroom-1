@@ -24,7 +24,7 @@ class ModelPawn extends PawnBehavior {
 
         const loadModelPromise = new Promise((resolve, reject) => {
             gltfLoader.load(
-                './assets/Server_room.glb',
+                './assets/Server room .glb',
                 (gltf) => {
                     const model = gltf.scene;
 
