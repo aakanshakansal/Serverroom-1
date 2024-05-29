@@ -23,7 +23,7 @@ class ModelPawn extends PawnBehavior {
         
         const loadModelPromise = new Promise((resolve, reject) => {
             gltfLoader.load(
-                './assets/Server_Room_New_NEW 1wire blend.glb', 
+                './assets/Server_Rack.blend New New lend.blend wire new .glb', 
                 (gltf) => {
                     const model = gltf.scene;
         
@@ -44,7 +44,7 @@ class ModelPawn extends PawnBehavior {
             );
         });
         loadModelPromise.then((model) => {
-            const colors = [0xff0000, 0x00ff00, 0x0000ff, 0xffff00]; // Red, Green, Blue, Yellow
+            const colors = [0xff0e00, 0xff7100, 0xffde2d, 0xfbffff,0x80f2ff, 0x01aeff, 0x0029ff]; // Red, Green, Blue, Yellow
 
             // Shuffle the colors array to randomize the order
             for (let i = colors.length - 1; i > 0; i--) {
@@ -308,111 +308,1141 @@ class ModelPawn extends PawnBehavior {
                 });
             }
 
-            function createParticleSystem(group, THREE) {
-                let particlesGroup = null;
-                const colors = [0xff0000, 0x00ff00, 0x0000ff, 0xffff00]; // Red, Green, Blue, Yellow
+            // function createParticleSystem(group, THREE) {
+            //     let particlesGroup = null;
+            //     const colors = [0xff0000, 0x00ff00, 0x0000ff, 0xffff00]; // Red, Green, Blue, Yellow
             
-                // Shuffle the colors array to randomize the order
-                for (let i = colors.length - 1; i > 0; i--) {
-                    const j = Math.floor(Math.random() * (i + 1));
-                    [colors[i], colors[j]] = [colors[j], colors[i]];
+            //     // Shuffle the colors array to randomize the order
+            //     for (let i = colors.length - 1; i > 0; i--) {
+            //         const j = Math.floor(Math.random() * (i + 1));
+            //         [colors[i], colors[j]] = [colors[j], colors[i]];
+            //     }
+            
+            //     let colorIndex = 0;
+            
+            //     function createParticles() {
+            //         if (particlesGroup) {
+            //             // If particles already exist, no need to create them again
+            //             return;
+            //         }
+            
+            //         particlesGroup = new THREE.Group();
+            //         const particleCount = 10000;
+            //         const radius = 0.05; // Radius of individual spheres
+            
+            //         for (let i = 0; i < particleCount; i++) {
+            //             const geometry = new THREE.SphereGeometry(radius, 1, 1);
+            //             const material = new THREE.MeshBasicMaterial({
+            //                 color: colors[colorIndex]
+            //             });
+            //             colorIndex = (colorIndex + 1) % colors.length; // Cycle through colors
+            
+            //             const particle = new THREE.Mesh(geometry, material);
+            
+            //             // Position the particles randomly within a certain volume
+            //             particle.position.set(
+            //                 (Math.random() - 0.5) * 100, // X position
+            //                 (Math.random() - 0.5) * 100, // Y position
+            //                 (Math.random() - 0.5) * 100  // Z position
+            //             );
+            
+            //             particlesGroup.add(particle);
+            //         }
+            
+            //         // particlesGroup.position.set(10, 1, 10); // Set the initial position for the particle system
+            //         group.add(particlesGroup);
+            
+            //         // Start the animation
+            //         startAnimation();
+            //     }
+            
+            //     function removeParticles() {
+            //         if (particlesGroup) {
+            //             group.remove(particlesGroup);
+            //             particlesGroup.traverse((object) => {
+            //                 if (object.isMesh) {
+            //                     object.geometry.dispose();
+            //                     object.material.dispose();
+            //                 }
+            //             });
+            //             particlesGroup = null;
+            //         }
+            //     }
+            
+            //     function startAnimation() {
+            //         let time = 0;
+            //         const speed = 0.07; // Speed of particle movement
+            
+            //         function updateParticles() {
+            //             if (!particlesGroup) {
+            //                 // Stop the animation if the particle system is removed
+            //                 return;
+            //             }
+            
+            //             particlesGroup.children.forEach(particle => {
+            //                 // Move Y position up over time
+            //                 particle.position.y += speed * time;
+            
+            //                 // Reset if Y position goes above threshold
+            //                 if (particle.position.y >10) {
+            //                     particle.position.y = -2;
+            //                 }
+            //             });
+            
+            //             time += 0.001; // Increase time increment for faster animation
+            
+            //             requestAnimationFrame(updateParticles);
+            //         }
+            
+            //         updateParticles();
+            //     }
+            
+            //     return {
+            //         createParticles,
+            //         removeParticles
+            //     };
+            // }
+/*
+            function createTemperatureSimulation(group, THREE) {
+                const particleCount = 1000;
+                const particles = [];
+            
+                // Create temperature particles
+                for (let i = 0; i < particleCount; i++) {
+                    const particle = new THREE.Mesh(
+                        new THREE.SphereGeometry(0.02, 1,1 ),
+                        new THREE.MeshBasicMaterial({ color: 0xffffff }) // Initial color
+                    );
+            
+                    particle.position.set(
+                    3+ Math.random() * 7.2, // Range from -20 to +20
+                        -Math.random() * 5, // Start from bottom to top
+                      -2 + Math.random() *7
+                    );
+                    
+            
+                    // Assign temperature based o2n height (warmer at the top, cooler at the bottom)
+                    const temperature = (particle.position.y / 3) * 255; // Scale from 0 to 255 for color representation
+                    particle.material.color.setRGB(temperature / 255, 0, (255 - temperature) / 255);
+            
+                    particles.push(particle);
+                    group.add(particle);
                 }
             
-                let colorIndex = 0;
-            
-                function createParticles() {
-                    if (particlesGroup) {
-                        // If particles already exist, no need to create them again
-                        return;
-                    }
-            
-                    particlesGroup = new THREE.Group();
-                    const particleCount = 10000;
-                    const radius = 0.05; // Radius of individual spheres
-            
-                    for (let i = 0; i < particleCount; i++) {
-                        const geometry = new THREE.SphereGeometry(radius, 1, 1);
-                        const material = new THREE.MeshBasicMaterial({
-                            color: colors[colorIndex]
-                        });
-                        colorIndex = (colorIndex + 1) % colors.length; // Cycle through colors
-            
-                        const particle = new THREE.Mesh(geometry, material);
-            
-                        // Position the particles randomly within a certain volume
-                        particle.position.set(
-                            (Math.random() - 0.5) * 100, // X position
-                            (Math.random() - 0.5) * 100, // Y position
-                            (Math.random() - 0.5) * 100  // Z position
-                        );
-            
-                        particlesGroup.add(particle);
-                    }
-            
-                    // particlesGroup.position.set(10, 1, 10); // Set the initial position for the particle system
-                    group.add(particlesGroup);
-            
-                    // Start the animation
-                    startAnimation();
-                }
-            
+                // Function to remove temperature particles
                 function removeParticles() {
-                    if (particlesGroup) {
-                        group.remove(particlesGroup);
-                        particlesGroup.traverse((object) => {
-                            if (object.isMesh) {
-                                object.geometry.dispose();
-                                object.material.dispose();
-                            }
-                        });
-                        particlesGroup = null;
-                    }
+                    particles.forEach(particle => {
+                        group.remove(particle); // Remove particle from the group
+                    });
+                    particles.length = 0; // Clear the array
                 }
             
-                function startAnimation() {
-                    let time = 0;
-                    const speed = 0.07; // Speed of particle movement
+                // Function to update temperature particles
+                function updateTemperature() {
+                    particles.forEach(particle => {
+                        // Move particles upward
+                        particle.position.y += 0.01;
             
-                    function updateParticles() {
-                        if (!particlesGroup) {
-                            // Stop the animation if the particle system is removed
-                            return;
+                        // Simulate temperature diffusion or other effects here
+            
+                        // For simplicity, let's just randomly adjust temperature colors
+                        const temperature = (particle.position.y / 3) * 255; // Scale from 0 to 255 for color representation
+                        particle.material.color.setRGB(temperature / 255, 0, (255 - temperature) / 255);
+            
+                        // Reset temperature particle position if it goes beyond certain height
+                        if (particle.position.y > 3) {
+                            particle.position.y = -Math.random() * 3; // Reset to the bottom
                         }
+                    });
             
-                        particlesGroup.children.forEach(particle => {
-                            // Move Y position up over time
-                            particle.position.y += speed * time;
-            
-                            // Reset if Y position goes above threshold
-                            if (particle.position.y >10) {
-                                particle.position.y = -2;
-                            }
-                        });
-            
-                        time += 0.001; // Increase time increment for faster animation
-            
-                        requestAnimationFrame(updateParticles);
-                    }
-            
-                    updateParticles();
+                    // Schedule next update
+                    requestAnimationFrame(updateTemperature);
                 }
             
+                // Start the temperature simulation
+                updateTemperature();
+            
+                // Return an object with a remove function to clean up particles
                 return {
-                    createParticles,
-                    removeParticles
+                    remove: removeParticles
+                };
+            }
+
+            function createTemperatureSimulation1(group, THREE) {
+                const particleCount = 3000;
+                const particles = [];
+            
+                // Create temperature particles
+                for (let i = 0; i < particleCount; i++) {
+                    const particle = new THREE.Mesh(
+                        new THREE.SphereGeometry(0.02, 1,1 ),
+                        new THREE.MeshBasicMaterial({ color: 0xffffff }) // Initial color
+                    );
+            
+                    particle.position.set(
+                        13+ Math.random() * 5.5 , 
+                        -Math.random() * 5, // Start from bottom to top
+                      -2 + Math.random() *7
+                    );
+                    
+            
+                    // Assign temperature based o2n height (warmer at the top, cooler at the bottom)
+                    const temperature = (particle.position.y / 3) * 255; // Scale from 0 to 255 for color representation
+                    particle.material.color.setRGB(temperature / 255, 0, (255 - temperature) / 255);
+            
+                    particles.push(particle);
+                    group.add(particle);
+                }
+            
+                // Function to remove temperature particles
+                function removeParticles1() {
+                    particles.forEach(particle => {
+                        group.remove(particle); // Remove particle from the group
+                    });
+                    particles.length = 0; // Clear the array
+                }
+            
+                // Function to update temperature particles
+                function updateTemperature1() {
+                    particles.forEach(particle => {
+                        // Move particles upward
+                        particle.position.y += 0.01;
+            
+                        // Simulate temperature diffusion or other effects here
+            
+                        // For simplicity, let's just randomly adjust temperature colors
+                        const temperature = (particle.position.y / 3) * 255; // Scale from 0 to 255 for color representation
+                        particle.material.color.setRGB(temperature / 255, 0, (255 - temperature) / 255);
+            
+                        // Reset temperature particle position if it goes beyond certain height
+                        if (particle.position.y > 3) {
+                            particle.position.y = -Math.random() * 3; // Reset to the bottom
+                        }
+                    });
+            
+                    // Schedule next update
+                    requestAnimationFrame(updateTemperature1);
+                }
+            
+                // Start the temperature simulation
+                updateTemperature1();
+            
+                // Return an object with a remove function to clean up particles
+                return {
+                    remove: removeParticles1
                 };
             }
             
+
+            function createTemperatureSimulation2(group, THREE) {
+                const particleCount = 6000;
+                const particles = [];
+            
+                // Create temperature particles
+                for (let i = 0; i < particleCount; i++) {
+                    const particle = new THREE.Mesh(
+                        new THREE.SphereGeometry(0.02, 1,1 ),
+                        new THREE.MeshBasicMaterial({ color: 0xffffff }) // Initial color
+                    );
+            
+                    particle.position.set(
+                        -13+ Math.random() * 1, // Range from -20 to +20
+                        -Math.random() * 5, // Start from bottom to top
+                      -2 + Math.random() *7
+                    );
+                    
+            
+                    // Assign temperature based o2n height (warmer at the top, cooler at the bottom)
+                    const temperature = (particle.position.y / 3) * 255; // Scale from 0 to 255 for color representation
+                    particle.material.color.setRGB(temperature / 255, 0, (255 - temperature) / 255);
+            
+                    particles.push(particle);
+                    group.add(particle);
+                }
+            
+                // Function to remove temperature particles
+                function removeParticles2() {
+                    particles.forEach(particle => {
+                        group.remove(particle); // Remove particle from the group
+                    });
+                    particles.length = 0; // Clear the array
+                }
+            
+                // Function to update temperature particles
+                function updateTemperature2() {
+                    particles.forEach(particle => {
+                        // Move particles upward
+                        particle.position.y += 0.01;
+            
+                        // Simulate temperature diffusion or other effects here
+            
+                        // For simplicity, let's just randomly adjust temperature colors
+                        const temperature = (particle.position.y / 3) * 255; // Scale from 0 to 255 for color representation
+                        particle.material.color.setRGB(temperature / 255, 0, (255 - temperature) / 255);
+            
+                        // Reset temperature particle position if it goes beyond certain height
+                        if (particle.position.y > 3) {
+                            particle.position.y = -Math.random() * 3; // Reset to the bottom
+                        }
+                    });
+            
+                    // Schedule next update
+                    requestAnimationFrame(updateTemperature2);
+                }
+            
+                // Start the temperature simulation
+                updateTemperature2();
+            
+                // Return an object with a remove function to clean up particles
+                return {
+                    remove: removeParticles2
+                };
+            }
+
+            function createTemperatureSimulation3(group, THREE) {
+                const particleCount = 6000;
+                const particles = [];
+            
+                // Create temperature particles
+                for (let i = 0; i < particleCount; i++) {
+                    const particle = new THREE.Mesh(
+                        new THREE.SphereGeometry(0.02, 1,1 ),
+                        new THREE.MeshBasicMaterial({ color: 0xffffff }) // Initial color
+                    );
+            
+                    particle.position.set(
+                        0.1+ Math.random() * -9, // Range from -20 to +20
+                        -Math.random() * 5, // Start from bottom to top
+                      -2 + Math.random() *7
+                    );
+                    
+            
+                    // Assign temperature based o2n height (warmer at the top, cooler at the bottom)
+                    const temperature = (particle.position.y / 3) * 255; // Scale from 0 to 255 for color representation
+                    particle.material.color.setRGB(temperature / 255, 0, (255 - temperature) / 255);
+            
+                    particles.push(particle);
+                    group.add(particle);
+                }
+            
+                // Function to remove temperature particles
+                function removeParticles3() {
+                    particles.forEach(particle => {
+                        group.remove(particle); // Remove particle from the group
+                    });
+                    particles.length = 0; // Clear the array
+                }
+            
+                // Function to update temperature particles
+                function updateTemperature3() {
+                    particles.forEach(particle => {
+                        // Move particles upward
+                        particle.position.y += 0.01;
+            
+                        // Simulate temperature diffusion or other effects here
+            
+                        // For simplicity, let's just randomly adjust temperature colors
+                        const temperature = (particle.position.y / 3) * 255; // Scale from 0 to 255 for color representation
+                        particle.material.color.setRGB(temperature / 255, 0, (255 - temperature) / 255);
+            
+                        // Reset temperature particle position if it goes beyond certain height
+                        if (particle.position.y > 3) {
+                            particle.position.y = -Math.random() * 3; // Reset to the bottom
+                        }
+                    });
+            
+                    // Schedule next update
+                    requestAnimationFrame(updateTemperature3);
+                }
+            
+                // Start the temperature simulation
+                updateTemperature3();
+            
+                // Return an object with a remove function to clean up particles
+                return {
+                    remove: removeParticles3
+                };
+            }
+
+
+            */
+                
+            
+            // function createTemperatureSimulation5(group, THREE) {
+            //     const particleCount = 1000;
+            //     const particles = [];
+            
+            //     // Create temperature particles
+            //     for (let i = 0; i < particleCount; i++) {
+            //         const particle = new THREE.Mesh(
+            //             new THREE.SphereGeometry(0.02, 1,1 ),
+            //             new THREE.MeshBasicMaterial({ color: 0xffffff }) // Initial color
+            //         );
+            
+            //         particle.position.set(
+            //         3+ Math.random() * 7.2, // Range from -20 to +20
+            //             -Math.random() * 5, // Start from bottom to top
+            //             -1 +Math.random() *5
+            //         );
+                    
+            
+            //         // Assign temperature based o2n height (warmer at the top, cooler at the bottom)
+            //         const temperature = (particle.position.y / 3) * 255; // Scale from 0 to 255 for color representation
+            //         particle.material.color.setRGB(temperature / 255, 0, (255 - temperature) / 255);
+            
+            //         particles.push(particle);
+            //         group.add(particle);
+            //     }
+            
+            //     // Function to remove temperature particles
+            //     function removeParticles5() {
+            //         particles.forEach(particle => {
+            //             group.remove(particle); // Remove particle from the group
+            //         });
+            //         particles.length = 0; // Clear the array
+            //     }
+            
+            //     // Function to update temperature particles
+            //     function updateTemperature5() {
+            //         particles.forEach(particle => {
+            //             // Move particles upward
+            //             particle.position.y += 0.01;
+            
+            //             // Simulate temperature diffusion or other effects here
+            
+            //             // For simplicity, let's just randomly adjust temperature colors
+            //             const temperature = (particle.position.y / 3) * 255; // Scale from 0 to 255 for color representation
+            //             particle.material.color.setRGB(temperature / 255, 0, (255 - temperature) / 255);
+            
+            //             // Reset temperature particle position if it goes beyond certain height
+            //             if (particle.position.y > 3) {
+            //                 particle.position.y = -Math.random() * 3; // Reset to the bottom
+            //             }
+            //         });
+            
+            //         // Schedule next update
+            //         requestAnimationFrame(updateTemperature5);
+            //     }
+            
+            //     // Start the temperature simulation
+            //     updateTemperature5();
+            
+            //     // Return an object with a remove function to clean up particles
+            //     return {
+            //         remove: removeParticles5
+            //     };
+            // }
+
+
+
+            // Sample setup to create a scene and visualize the temperature simulation in the server room
+            // Function to create temperature simulation
+function createTemperatureSimulation(group, THREE) {
+    const particleCount = 1000;
+    const particles = [];
+
+    // Create temperature particles
+    for (let i = 0; i < particleCount; i++) {
+        const particle = new THREE.Mesh(
+            new THREE.SphereGeometry(0.02, 1, 1),
+            new THREE.MeshBasicMaterial({ color: 0xffffff }) // Initial color
+        );
+
+        particle.position.set(
+            3 + Math.random() * 7.2, // Range from -20 to +20
+            -Math.random() * 5, // Start from bottom to top
+            -2 + Math.random() * 7
+        );
+
+        // Assign temperature based on height (warmer at the top, cooler at the bottom)
+        const temperature = (particle.position.y / 3) * 255; // Scale from 0 to 255 for color representation
+        particle.material.color.setRGB(temperature / 255, 0, (255 - temperature) / 255);
+
+        particles.push(particle);
+        group.add(particle);
+    }
+
+    // Function to remove temperature particles
+    function removeParticles() {
+        particles.forEach(particle => {
+            group.remove(particle); // Remove particle from the group
+        });
+        particles.length = 0; // Clear the array
+    }
+
+    // Function to update temperature particles
+    function updateTemperature() {
+        particles.forEach(particle => {
+            // Move particles upward
+            particle.position.y += 0.01;
+
+            // Simulate temperature diffusion or other effects here
+
+            // For simplicity, let's just randomly adjust temperature colors
+            const temperature = (particle.position.y / 3) * 255; // Scale from 0 to 255 for color representation
+            particle.material.color.setRGB(temperature / 255, 0, (255 - temperature) / 255);
+
+            // Reset temperature particle position if it goes beyond certain height
+            if (particle.position.y > 3) {
+                particle.position.y = -Math.random() * 3; // Reset to the bottom
+            }
+        });
+
+        // Schedule next update
+        requestAnimationFrame(updateTemperature);
+    }
+
+    // Start the temperature simulation
+    updateTemperature();
+
+    // Return an object with a remove function to clean up particles
+    return {
+        remove: removeParticles
+    };
+}
+
+function createTemperatureSimulation1(group, THREE) {
+    const particleCount = 3000;
+    const particles = [];
+
+    // Create temperature particles
+    for (let i = 0; i < particleCount; i++) {
+        const particle = new THREE.Mesh(
+            new THREE.SphereGeometry(0.02, 1, 1),
+            new THREE.MeshBasicMaterial({ color: 0xffffff }) // Initial color
+        );
+
+        particle.position.set(
+            13 + Math.random() * 5.5,
+            -Math.random() * 5, // Start from bottom to top
+            -2 + Math.random() * 7
+        );
+
+        // Assign temperature based on height (warmer at the top, cooler at the bottom)
+        const temperature = (particle.position.y / 3) * 255; // Scale from 0 to 255 for color representation
+        particle.material.color.setRGB(temperature / 255, 0, (255 - temperature) / 255);
+
+        particles.push(particle);
+        group.add(particle);
+    }
+
+    // Function to remove temperature particles
+    function removeParticles() {
+        particles.forEach(particle => {
+            group.remove(particle); // Remove particle from the group
+        });
+        particles.length = 0; // Clear the array
+    }
+
+    // Function to update temperature particles
+    function updateTemperature() {
+        particles.forEach(particle => {
+            // Move particles upward
+            particle.position.y += 0.01;
+
+            // Simulate temperature diffusion or other effects here
+
+            // For simplicity, let's just randomly adjust temperature colors
+            const temperature = (particle.position.y / 3) * 255; // Scale from 0 to 255 for color representation
+            particle.material.color.setRGB(temperature / 255, 0, (255 - temperature) / 255);
+
+            // Reset temperature particle position if it goes beyond certain height
+            if (particle.position.y > 3) {
+                particle.position.y = -Math.random() * 3; // Reset to the bottom
+            }
+        });
+
+        // Schedule next update
+        requestAnimationFrame(updateTemperature);
+    }
+
+    // Start the temperature simulation
+    updateTemperature();
+
+    // Return an object with a remove function to clean up particles
+    return {
+        remove: removeParticles
+    };
+}
+
+function createTemperatureSimulation2(group, THREE) {
+    const particleCount = 6000;
+    const particles = [];
+
+    // Create temperature particles
+    for (let i = 0; i < particleCount; i++) {
+        const particle = new THREE.Mesh(
+            new THREE.SphereGeometry(0.02, 1, 1),
+            new THREE.MeshBasicMaterial({ color: 0xffffff }) // Initial color
+        );
+
+        particle.position.set(
+            -13 + Math.random() * 1,
+            -Math.random() * 5, // Start from bottom to top
+            -2 + Math.random() * 7
+        );
+
+        // Assign temperature based on height (warmer at the top, cooler at the bottom)
+        const temperature = (particle.position.y / 3) * 255; // Scale from 0 to 255 for color representation
+        particle.material.color.setRGB(temperature / 255, 0, (255 - temperature) / 255);
+
+        particles.push(particle);
+        group.add(particle);
+    }
+
+    // Function to remove temperature particles
+    function removeParticles() {
+        particles.forEach(particle => {
+            group.remove(particle); // Remove particle from the group
+        });
+        particles.length = 0; // Clear the array
+    }
+
+    // Function to update temperature particles
+    function updateTemperature() {
+        particles.forEach(particle => {
+            // Move particles upward
+            particle.position.y += 0.01;
+
+            // Simulate temperature diffusion or other effects here
+
+            // For simplicity, let's just randomly adjust temperature colors
+            const temperature = (particle.position.y / 3) * 255; // Scale from 0 to 255 for color representation
+            particle.material.color.setRGB(temperature / 255, 0, (255 - temperature) / 255);
+
+            // Reset temperature particle position if it goes beyond certain height
+            if (particle.position.y > 3) {
+                particle.position.y = -Math.random() * 3; // Reset to the bottom
+            }
+        });
+
+        // Schedule next update
+        requestAnimationFrame(updateTemperature);
+    }
+
+    // Start the temperature simulation
+    updateTemperature();
+
+    // Return an object with a remove function to clean up particles
+    return {
+        remove: removeParticles
+    };
+}
+
+function createTemperatureSimulation3(group, THREE) {
+    const particleCount = 6000;
+    const particles = [];
+
+    // Create temperature particles
+    for (let i = 0; i < particleCount; i++) {
+        const particle = new THREE.Mesh(
+            new THREE.SphereGeometry(0.02, 1, 1),
+            new THREE.MeshBasicMaterial({ color: 0xffffff }) // Initial color
+        );
+
+        particle.position.set(
+            0.1 + Math.random() * -9,
+            -Math.random() * 5, // Start from bottom to top
+            -2 + Math.random() * 7
+        );
+
+        // Assign temperature based on height (warmer at the top, cooler at the bottom)
+        const temperature = (particle.position.y / 3) * 255; // Scale from 0 to 255 for color representation
+        particle.material.color.setRGB(temperature / 255, 0, (255 - temperature) / 255);
+
+        particles.push(particle);
+        group.add(particle);
+    }
+
+    // Function to remove temperature particles
+    function removeParticles() {
+        particles.forEach(particle => {
+            group.remove(particle); // Remove particle from the group
+        });
+        particles.length = 0; // Clear the array
+    }
+
+    // Function to update temperature particles
+    function updateTemperature() {
+        particles.forEach(particle => {
+            // Move particles upward
+            particle.position.y += 0.01;
+
+            // Simulate temperature diffusion or other effects here
+
+            // For simplicity, let's just randomly adjust temperature colors
+            const temperature = (particle.position.y / 3) * 255; // Scale from 0 to 255 for color representation
+            particle.material.color.setRGB(temperature / 255, 0, (255 - temperature) / 255);
+
+            // Reset temperature particle position if it goes beyond certain height
+            if (particle.position.y > 3) {
+                particle.position.y = -Math.random() * 3; // Reset to the bottom
+            }
+        });
+
+        // Schedule next update
+        requestAnimationFrame(updateTemperature);
+    }
+
+    // Start the temperature simulation
+    updateTemperature();
+
+    // Return an object with a remove function to clean up particles
+    return {
+        remove: removeParticles
+    };
+}
+
+function createTemperatureSimulation4(group, THREE) {
+    const particleCount = 1000;
+    const particles = [];
+
+    // Create temperature particles
+    for (let i = 0; i < particleCount; i++) {
+        const particle = new THREE.Mesh(
+            new THREE.SphereGeometry(0.02, 1, 1),
+            new THREE.MeshBasicMaterial({ color: 0xffffff }) // Initial color
+        );
+
+        particle.position.set(
+            3 + Math.random() * 7.2, // Range from -20 to +20
+            -Math.random() * 5, // Start from bottom to top
+            8.5 + Math.random() * 8.5
+        );
+
+        // Assign temperature based on height (warmer at the top, cooler at the bottom)
+        const temperature = (particle.position.y / 3) * 255; // Scale from 0 to 255 for color representation
+        particle.material.color.setRGB(temperature / 255, 0, (255 - temperature) / 255);
+
+        particles.push(particle);
+        group.add(particle);
+    }
+
+    // Function to remove temperature particles
+    function removeParticles() {
+        particles.forEach(particle => {
+            group.remove(particle); // Remove particle from the group
+        });
+        particles.length = 0; // Clear the array
+    }
+
+    // Function to update temperature particles
+    function updateTemperature() {
+        particles.forEach(particle => {
+            // Move particles upward
+            particle.position.y += 0.01;
+
+            // Simulate temperature diffusion or other effects here
+
+            // For simplicity, let's just randomly adjust temperature colors
+            const temperature = (particle.position.y / 3) * 255; // Scale from 0 to 255 for color representation
+            particle.material.color.setRGB(temperature / 255, 0, (255 - temperature) / 255);
+
+            // Reset temperature particle position if it goes beyond certain height
+            if (particle.position.y > 3) {
+                particle.position.y = -Math.random() * 3; // Reset to the bottom
+            }
+        });
+
+        // Schedule next update
+        requestAnimationFrame(updateTemperature);
+    }
+
+    // Start the temperature simulation
+    updateTemperature();
+
+    // Return an object with a remove function to clean up particles
+    return {
+        remove: removeParticles
+    };
+}
+
+function createTemperatureSimulation5(group, THREE) {
+    const particleCount = 3000;
+    const particles = [];
+
+    // Create temperature particles
+    for (let i = 0; i < particleCount; i++) {
+        const particle = new THREE.Mesh(
+            new THREE.SphereGeometry(0.02, 1, 1),
+            new THREE.MeshBasicMaterial({ color: 0xffffff }) // Initial color
+        );
+
+        particle.position.set(
+            13 + Math.random() * 5.5,
+            -Math.random() * 5, // Start from bottom to top
+            8.5 + Math.random() * 8.5
+        );
+
+        // Assign temperature based on height (warmer at the top, cooler at the bottom)
+        const temperature = (particle.position.y / 3) * 255; // Scale from 0 to 255 for color representation
+        particle.material.color.setRGB(temperature / 255, 0, (255 - temperature) / 255);
+
+        particles.push(particle);
+        group.add(particle);
+    }
+
+    // Function to remove temperature particles
+    function removeParticles() {
+        particles.forEach(particle => {
+            group.remove(particle); // Remove particle from the group
+        });
+        particles.length = 0; // Clear the array
+    }
+
+    // Function to update temperature particles
+    function updateTemperature() {
+        particles.forEach(particle => {
+            // Move particles upward
+            particle.position.y += 0.01;
+
+            // Simulate temperature diffusion or other effects here
+
+            // For simplicity, let's just randomly adjust temperature colors
+            const temperature = (particle.position.y / 3) * 255; // Scale from 0 to 255 for color representation
+            particle.material.color.setRGB(temperature / 255, 0, (255 - temperature) / 255);
+
+            // Reset temperature particle position if it goes beyond certain height
+            if (particle.position.y > 3) {
+                particle.position.y = -Math.random() * 3; // Reset to the bottom
+            }
+        });
+
+        // Schedule next update
+        requestAnimationFrame(updateTemperature);
+    }
+
+    // Start the temperature simulation
+    updateTemperature();
+
+    // Return an object with a remove function to clean up particles
+    return {
+        remove: removeParticles
+    };
+}
+
+function createTemperatureSimulation6(group, THREE) {
+    const particleCount = 6000;
+    const particles = [];
+
+    // Create temperature particles
+    for (let i = 0; i < particleCount; i++) {
+        const particle = new THREE.Mesh(
+            new THREE.SphereGeometry(0.02, 1, 1),
+            new THREE.MeshBasicMaterial({ color: 0xffffff }) // Initial color
+        );
+
+        particle.position.set(
+            -13 + Math.random() * 1,
+            -Math.random() * 5, // Start from bottom to top
+            8.5 + Math.random() * 8.5
+        );
+
+        // Assign temperature based on height (warmer at the top, cooler at the bottom)
+        const temperature = (particle.position.y / 3) * 255; // Scale from 0 to 255 for color representation
+        particle.material.color.setRGB(temperature / 255, 0, (255 - temperature) / 255);
+
+        particles.push(particle);
+        group.add(particle);
+    }
+
+    // Function to remove temperature particles
+    function removeParticles() {
+        particles.forEach(particle => {
+            group.remove(particle); // Remove particle from the group
+        });
+        particles.length = 0; // Clear the array
+    }
+
+    // Function to update temperature particles
+    function updateTemperature() {
+        particles.forEach(particle => {
+            // Move particles upward
+            particle.position.y += 0.01;
+
+            // Simulate temperature diffusion or other effects here
+
+            // For simplicity, let's just randomly adjust temperature colors
+            const temperature = (particle.position.y / 3) * 255; // Scale from 0 to 255 for color representation
+            particle.material.color.setRGB(temperature / 255, 0, (255 - temperature) / 255);
+
+            // Reset temperature particle position if it goes beyond certain height
+            if (particle.position.y > 3) {
+                particle.position.y = -Math.random() * 3; // Reset to the bottom
+            }
+        });
+
+        // Schedule next update
+        requestAnimationFrame(updateTemperature);
+    }
+
+    // Start the temperature simulation
+    updateTemperature();
+
+    // Return an object with a remove function to clean up particles
+    return {
+        remove: removeParticles
+    };
+}
+
+function createTemperatureSimulation7(group, THREE) {
+    const particleCount = 6000;
+    const particles = [];
+
+    // Create temperature particles
+    for (let i = 0; i < particleCount; i++) {
+        const particle = new THREE.Mesh(
+            new THREE.SphereGeometry(0.02, 1, 1),
+            new THREE.MeshBasicMaterial({ color: 0xffffff }) // Initial color
+        );
+
+        particle.position.set(
+            0.1 + Math.random() * -9,
+            -Math.random() * 5, // Start from bottom to top
+            8.5 + Math.random() * 8.5
+        );
+
+        // Assign temperature based on height (warmer at the top, cooler at the bottom)
+        const temperature = (particle.position.y / 3) * 255; // Scale from 0 to 255 for color representation
+        particle.material.color.setRGB(temperature / 255, 0, (255 - temperature) / 255);
+
+        particles.push(particle);
+        group.add(particle);
+    }
+
+    // Function to remove temperature particles
+    function removeParticles() {
+        particles.forEach(particle => {
+            group.remove(particle); // Remove particle from the group
+        });
+        particles.length = 0; // Clear the array
+    }
+
+    // Function to update temperature particles
+    function updateTemperature() {
+        particles.forEach(particle => {
+            // Move particles upward
+            particle.position.y += 0.01;
+
+            // Simulate temperature diffusion or other effects here
+
+            // For simplicity, let's just randomly adjust temperature colors
+            const temperature = (particle.position.y / 3) * 255; // Scale from 0 to 255 for color representation
+            particle.material.color.setRGB(temperature / 255, 0, (255 - temperature) / 255);
+
+            // Reset temperature particle position if it goes beyond certain height
+            if (particle.position.y > 3) {
+                particle.position.y = -Math.random() * 3; // Reset to the bottom
+            }
+        });
+
+        // Schedule next update
+        requestAnimationFrame(updateTemperature);
+    }
+
+    // Start the temperature simulation
+    updateTemperature();
+
+    // Return an object with a remove function to clean up particles
+    return {
+        remove: removeParticles
+    };
+}
+
+// GUI management
+
+
+            
+            
+            function init() {
+                const scene = new THREE.Scene();
+                const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+                const renderer = new THREE.WebGLRenderer();
+            
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                document.body.appendChild(renderer.domElement);
+            
+                const group = new THREE.Group();
+                scene.add(group);
+            
+         
+            
+                // Adjust the camera position to view the simulation
+                camera.position.set(5, 5, 20);
+                camera.lookAt(5, 0, 5); // Looking at the center of the room
+            
+                function animate() {
+                    requestAnimationFrame(animate);
+                    renderer.render(scene, camera);
+                }
+            
+                animate();
+            }
+            
+            init();
+            
+            
+            
+            
+            
+            
+            
+            
+
+            // function createParticleSystem1(group, THREE) {
+            //     let particlesGroup = null;
+            //     const colors = [0xff0e00, 0xff7100, 0xffde2d, 0xfbffff,0x80f2ff, 0x01aeff, 0x0029ff]; // Red, Green, Blue, Yellow
+            
+            //     // Shuffle the colors array to randomize the order
+            //     for (let i = colors.length - 1; i > 0; i--) {
+            //         const j = Math.floor(Math.random() * (i + 1));
+            //         [colors[i], colors[j]] = [colors[j], colors[i]];
+            //     }
+            
+            //     let colorIndex = 0;
+            
+            //     function createParticles1() {
+            //         if (particlesGroup) {
+            //             // If particles already exist, no need to create them again
+            //             return;
+            //         }
+            
+            //         particlesGroup = new THREE.Group();
+            //         const particleCount = 5000;
+            //         const radius = 0.05; // Radius of individual spheres
+            //         const rows = 15;
+            //         const rowHeight = 0.5; // Distance between rows
+            //         const rowWidth = 2; // Width for random X position within each row
+            //         const particlesPerRow = particleCount / rows;
+            
+            //         for (let i = 0; i < particleCount; i++) {
+            //             const geometry = new THREE.SphereGeometry(radius, 8, 8);
+            //             const material = new THREE.MeshBasicMaterial({
+            //                 color: colors[colorIndex]
+            //             });
+            //             colorIndex = (colorIndex + 1) % colors.length; // Cycle through colors
+            
+            //             const particle = new THREE.Mesh(geometry, material);
+            
+            //             // Arrange particles explicitly within five rows
+            //             const row = Math.floor(i / particlesPerRow); // Determine the row index
+            //             const xPos = (i % particlesPerRow) - particlesPerRow / 2; // Position within the row
+            
+            //             particle.position.set(
+            //                 xPos * (radius * 2), // X position spaced by radius
+            //                 -5 - (row * rowHeight), // Start below the visible area, adjusted for the row index
+            //                 2 // Z position (keep at 5 for a slightly different layout)
+            //             );
+            
+            //             // Set initial rotation to 90 degrees (π/2 radians) around the Y-axis
+            //             particle.rotation.set( -Math.PI/2, -Math.PI/2,0);
+            
+            //             particlesGroup.add(particle);
+            //         }
+            
+            //         group.add(particlesGroup);
+            
+            //         // Start the animation
+            //         startAnimation1();
+            //     }
+            
+            //     function removeParticles1() {
+            //         if (particlesGroup) {
+            //             group.remove(particlesGroup);
+            //             particlesGroup.traverse((object) => {
+            //                 if (object.isMesh) {
+            //                     object.geometry.dispose();
+            //                     object.material.dispose();
+            //                 }
+            //             });
+            //             particlesGroup = null;
+            //         }
+            //     }
+            
+            //     function startAnimation1() {
+            //         const speed = 0.1; // Speed of particle movement
+            //         const rotationSpeed = 0.01; // Speed of particle rotation
+            
+            //         function updateParticles1() {
+            //             if (!particlesGroup) {
+            //                 // Stop the animation if the particle system is removed
+            //                 return;
+            //             }
+            
+            //             particlesGroup.children.forEach(particle => {
+            //                 // Move Y position up over time
+            //                 particle.position.y += speed;
+            
+            //                 // Rotate particle over time
+            //                 particle.rotation.x += rotationSpeed;
+            //                 particle.rotation.y += rotationSpeed;
+            //                 particle.rotation.z += rotationSpeed;
+            
+            //                 // Reset if Y position goes above threshold
+            //                 if (particle.position.y > 10) {
+            //                     const rowHeight = 2; // Distance between rows
+            //                     const row = Math.floor((Math.random() * 5)); // Randomly assign new row index
+            //                     particle.position.y = -10 - (row * rowHeight); // Reset to below visible area, adjusted for the row index
+            //                 }
+            //             });
+            
+            //             requestAnimationFrame(updateParticles1);
+            //         }
+            
+            //         updateParticles1();
+            //     }
+            
+            //     return {
+            //         createParticles1,
+            //         removeParticles1
+            //     };
+            // }
+            
+            // // Sample setup to create a scene and visualize the particles
+            // function init() {
+            //     const scene = new THREE.Scene();
+            //     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            //     const renderer = new THREE.WebGLRenderer();
+            
+            //     renderer.setSize(window.innerWidth, window.innerHeight);
+            //     document.body.appendChild(renderer.domElement);
+            
+            //     const group = new THREE.Group();
+            //     scene.add(group);
+            
+            //     const { createParticles1, removeParticles1 } = createParticleSystem1(group, THREE);
+            //     createParticles1();
+            
+            //     camera.position.z = 50; // Adjust the camera position to view the particles
+            
+            //     function animate() {
+            //         requestAnimationFrame(animate);
+            //         renderer.render(scene, camera);
+            //     }
+            
+            //     animate();
+            // }
+            
+            // init();
+            
+            
+            
+            
+            
             var gui = new dat.GUI();
+
+            
+            
+           
             var obj = {
                 traverseAndColor: false // Initial state of the checkbox
             };
             
-            gui.add(obj, 'traverseAndColor').name('Temp. view1').onChange(function(value) {
+            gui.add(obj, 'traverseAndColor').name('Server Temp').onChange(function(value) {
                 if (value) {
                     
-                    for (let i=0; i <= 93; i++) {
-                        if(i>=5 && i<=38){
+                    for (let i=0; i <= 74; i++) {
+                        if(i>=5 && i<=19){
                             continue;
                         }
                         
@@ -423,8 +1453,8 @@ class ModelPawn extends PawnBehavior {
                         }
                     }
                 } else {
-                    for (let i=0; i <= 93; i++) {
-                        if(i>=5 && i<=38){
+                    for (let i=0; i <= 74; i++) {
+                        if(i>=5 && i<=19){
                             continue;
                         }
                         for (let j = 2; j <= 13; j++) {
@@ -437,10 +1467,10 @@ class ModelPawn extends PawnBehavior {
                 traverseAndColor1: false // Initial state of the checkbox
             };
             
-            gui.add(obj1, 'traverseAndColor1').name('Temp.').onChange(function(value) {
+            gui.add(obj1, 'traverseAndColor1').name('Rack wise Temp').onChange(function(value) {
                 if (value) {
-                    for (let i=0; i <= 93; i++) {
-                        if(i>=5 && i<=38){
+                    for (let i=0; i <= 74; i++) {
+                        if(i>=5 && i<=19){
                             continue;
                         }
                         // Reset colorIndex for each row
@@ -450,8 +1480,8 @@ class ModelPawn extends PawnBehavior {
                         }
                     }
                  else {
-                    for (let i=0; i <= 93; i++) {
-                        if(i>=5 && i<=38){
+                    for (let i=0; i <= 74; i++) {
+                        if(i>=5 && i<=19){
                             continue;
                         }
                        
@@ -546,7 +1576,7 @@ class ModelPawn extends PawnBehavior {
                 traverseAndColor7: false // Initial state of the checkbox
             };
             
-            gui.add(obj3, 'traverseAndColor7').name('Flow').onChange(function(value) {
+            gui.add(obj3, 'traverseAndColor7').name('Hvac Convection ').onChange(function(value) {
                 if (value) {
                     // for (let i=0; i <48; i++) {
                         
@@ -557,22 +1587,22 @@ class ModelPawn extends PawnBehavior {
                        
                     // }
                     
-                    for (let i=0; i <=94; i++) {
+                    for (let i=0; i <=267; i++) {
                         
                         // Reset colorIndex for each row
                         colorIndex = i - 1;
                        
-                            traverseAndColor7(model.children[19].children[i], false);
+                            traverseAndColor7(model.children[75].children[i], false);
                        
                     }
-                    for (let i=20; i <=38; i++) {
+                    // for (let i=20; i <=38; i++) {
                         
-                        // Reset colorIndex for each row
-                        colorIndex = i - 1;
+                    //     // Reset colorIndex for each row
+                    //     colorIndex = i - 1;
                        
-                            traverseAndColor7(model.children[i], false);
+                    //         traverseAndColor7(model.children[i], false);
                        
-                    }
+                    // }
                 } else {
                     // for (let i=0; i <48; i++) {
                      
@@ -580,36 +1610,74 @@ class ModelPawn extends PawnBehavior {
                     //         traverseAndColor7(model.children[13].children[i], true);
                        
                     // }
-                    for (let i=0; i <= 94; i++) {
+                    for (let i=0; i <= 267; i++) {
                         
                        
-                            traverseAndColor7(model.children[19].children[i], true);
+                            traverseAndColor7(model.children[75].children[i], true);
                         
                     } 
-                    for (let i=20; i <=38; i++) {
+                    // for (let i=20; i <=38; i++) {
                         
-                        // Reset colorIndex for each row
-                        colorIndex = i - 1;
+                    //     // Reset colorIndex for each row
+                    //     colorIndex = i - 1;
                        
-                            traverseAndColor7(model.children[i], true);
+                    //         traverseAndColor7(model.children[i], true);
                        
-                    }
+                    // }
                 }
             }); 
-            var obj5 = {
-                createParticles: false // Initial state of the checkbox
+            // var obj5 = {
+            //     createParticles: false // Initial state of the checkbox
+            // };
+            
+            // const particleSystem = createParticleSystem(group, THREE);
+            
+            // gui.add(obj5, 'createParticles').name('Particles').onChange(function(value) {
+            //     if (value) {
+            //         particleSystem.createParticles();
+            //     } else {
+            //         particleSystem.removeParticles();
+            //     }
+            // });
+       
+            var obj6 = {
+                createTemperatureSimulation: false // Initial state of the checkbox
             };
             
-            const particleSystem = createParticleSystem(group, THREE);
+            let temperatureSimulations = []; // Store all simulation instances
             
-            gui.add(obj5, 'createParticles').name('Particles').onChange(function(value) {
+            const simulationFunctions = [
+                createTemperatureSimulation,
+                createTemperatureSimulation1,
+                createTemperatureSimulation2,
+                createTemperatureSimulation3,
+                createTemperatureSimulation4,
+                createTemperatureSimulation5,
+                createTemperatureSimulation6,
+                createTemperatureSimulation7
+            ];
+            
+            // GUI event handler
+            gui.add(obj6, 'createTemperatureSimulation').name('Air Flow').onChange(function(value) {
                 if (value) {
-                    particleSystem.createParticles();
+                    // Iterate over each function and execute it, storing the instances
+                    simulationFunctions.forEach(func => {
+                        const simulation = func(group, THREE);
+                        temperatureSimulations.push(simulation);
+                    });
                 } else {
-                    particleSystem.removeParticles();
+                    // Remove all simulations
+                    temperatureSimulations.forEach(simulation => {
+                        simulation.remove(); // Call the remove function for each simulation
+                    });
+                    temperatureSimulations = []; // Clear the array
                 }
             });
-       
+
+           
+            
+            
+            
 
         }).catch((error) => {
             console.error('Error loading GLTF model:', error);
