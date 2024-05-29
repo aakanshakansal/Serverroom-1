@@ -1,4 +1,6 @@
-import * as THREE from 'three'
+import * as THREE from 'three';
+import { GLTFLoader } from 'node_modules/three/examples/jsm/loaders/GLTFLoader.js';
+import { DRACOLoader } from 'node_modules/three/examples/jsm/loaders/DRACOLoader.js';
 import * as dat from 'dat.gui';
 class ModelPawn extends PawnBehavior {
     setup() {
@@ -22,7 +24,7 @@ class ModelPawn extends PawnBehavior {
 
         const loadModelPromise = new Promise((resolve, reject) => {
             gltfLoader.load(
-                './assets/compressed (3) (2).glb',
+                './assets/Server_Rack.blend New New lend.blend wire new .glb',
                 (gltf) => {
                     const model = gltf.scene;
 
@@ -1688,7 +1690,7 @@ function createTemperatureSimulation7(group, THREE) {
 
     teardown() {
         console.log("teardown lights");
-        this.removeLights();
+     
         let scene = this.service("ThreeRenderManager").scene;
         scene.background?.dispose();
         scene.environment?.dispose();
