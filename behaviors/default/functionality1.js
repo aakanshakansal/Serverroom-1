@@ -11,29 +11,28 @@ class ModelPawn extends PawnBehavior {
 
         // Initialize DRACOLoader
         const dracoLoader = new THREE.DRACOLoader();
-        dracoLoader.setDecoderPath('https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/libs/draco/');
+        dracoLoader.setDecoderPath('https://cdn.jsdelivr.net/npm/three@0.152.0/examples/jsm/libs/draco/');
 
         // Set DRACOLoader as an extension to GLTFLoader
         const gltfLoader = new THREE.GLTFLoader();
         gltfLoader.setDRACOLoader(dracoLoader);
 
         this.lights = [];
-        let particles=[];
+        let particles = [];
 
-        
         const loadModelPromise = new Promise((resolve, reject) => {
             gltfLoader.load(
-                './assets/Genretor.glb', 
+                './assets/compressed (3) (2).glb',
                 (gltf) => {
                     const model = gltf.scene;
-        
+
                     model.position.set(0, -1.6, 0);
                     const scaleFactor = 2;
                     model.scale.set(scaleFactor, scaleFactor, scaleFactor);
-        
+
                     group.add(model);
                     console.log(model);
-        
+
                     resolve(model);
                 },
                 null,
@@ -43,8 +42,9 @@ class ModelPawn extends PawnBehavior {
                 }
             );
         });
+
         loadModelPromise.then((model) => {
-            const colors = [0xff0e00, 0xff7100, 0xffde2d, 0xfbffff,0x80f2ff, 0x01aeff, 0x0029ff]; // Red, Green, Blue, Yellow
+            const colors = [0xff0e00, 0xff7100, 0xffde2d, 0xfbffff, 0x80f2ff, 0x01aeff, 0x0029ff];
 
             // Shuffle the colors array to randomize the order
             for (let i = colors.length - 1; i > 0; i--) {
